@@ -32,12 +32,10 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
 
-uri_token = "https://sandboxdnac.cisco.com/dna/system/api/v1/auth/token"
-user = "devnetuser"
-password = "Cisco123!"
-
-def get_token(uri, user, password):
-    url = uri
+def get_token():
+    url = "https://sandboxdnac.cisco.com/dna/system/api/v1/auth/token"
+    user = "devnetuser"
+    password = "Cisco123!"
     payload = {}
     headers = {
       'Accept': 'application/json'
@@ -46,23 +44,15 @@ def get_token(uri, user, password):
     json_response = response.json()
     return json_response['Token']
 
-def get_server_info(token):
-    url = "https://sandboxdnac.cisco.com/dna/intent/api/v1/network-device/ip-address/10.10.22.70"
-    payload = {}
-    headers = {
-        'X-auth-token':token
-    }
-    response = requests.post(url=url, headers=headers, data=payload, verify=False)
-    print(response.json)
 
-def get_run(server, port, token):
-    url = "https://{0}:{1}/api/v1/global/running-config".format(server, port)
-    payload = {}
-    headers = {'X-auth-token': token}
-    response = requests.get(url=url, headers=headers, data=payload, verify=False)
-    text = response.text
+#def get_run(server, port, token):
+ #   url = "https://{0}:{1}/api/v1/global/running-config".format(server, port)
+ #   payload = {}
+ #   headers = {'X-auth-token': token}
+ #   response = requests.get(url=url, headers=headers, data=payload, verify=False)
+ #   text = response.text
     #webex_notify(roomId, webexToken, text)
-    return response.text
+ #   return response.text
 
 def get_employee_Data():
     url = "https://reqres.in/api/users"
@@ -74,7 +64,7 @@ def get_employee_Data():
 
 @app.route('/')
 def hello_world():
-    return 'test'
+    return render_template('home.html', posts=get_employee_Data(), title='Home')
 
 @app.route('/home')
 def blog():
@@ -86,7 +76,7 @@ def run():
     payload = {}
     headers = {
         'Accept':'application/json',
-        'X-auth-token':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ZTlkYmI3NzdjZDQ3ZTAwNGM2N2RkMGUiLCJhdXRoU291cmNlIjoiaW50ZXJuYWwiLCJ0ZW5hbnROYW1lIjoiVE5UMCIsInJvbGVzIjpbIjVkYzQ0NGQ1MTQ4NWM1MDA0YzBmYjIxMiJdLCJ0ZW5hbnRJZCI6IjVkYzQ0NGQzMTQ4NWM1MDA0YzBmYjIwYiIsImV4cCI6MTU4ODIwODQ2MCwidXNlcm5hbWUiOiJkZXZuZXR1c2VyIn0.SSn6l6AW9B4pi3XXe2JWR8UB8a5TjvpnrXuD5aygGCI'
+        'X-auth-token': get_token()
     }
     response = requests.get(url=url, headers=headers, data=payload, verify=False)
     data = response.json()
