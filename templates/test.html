@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for e in employees %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+                <h1><a class="article-title" href="#">{{ e.first_name  }}</a></h1>
+              <small class="text-muted">{{ e.email }}</small>
+            </div>
+            <h2><a class="article-title" href="#">This is a post</a></h2>
+            <p class="article-content">{{ e.content }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

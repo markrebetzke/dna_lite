@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div>
+      <!--
+      <script>
+        $(function (){
+          
+          var $orders1 = $('#orders1');
+          var $orders2 = $('#orders2');
+          
+          $.ajax({
+              type: 'GET',
+              url: 'https://reqres.in/api/users',
+              success: function(orders){
+                var json_order = orders.data
+                  $.each(json_order, function(i, order) {
+                    console.log(order.email)
+                    $orders1.append('<li>'+ order.first_name +'</li>');
+                    $orders2.append('<li>'+ order.email +'</li>');
+                  });
+              }
+          });
+      });
+      </script>
+      <script>
+        var settings = {
+          "url": "https://sandboxdnac.cisco.com/dna/intent/api/v1/network-device/ip-address/10.10.22.70",
+          "method": "GET",
+          "timeout": 0,
+          "headers": {
+            "x-auth-token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ZTlkYmI3NzdjZDQ3ZTAwNGM2N2RkMGUiLCJhdXRoU291cmNlIjoiaW50ZXJuYWwiLCJ0ZW5hbnROYW1lIjoiVE5UMCIsInJvbGVzIjpbIjVkYzQ0NGQ1MTQ4NWM1MDA0YzBmYjIxMiJdLCJ0ZW5hbnRJZCI6IjVkYzQ0NGQzMTQ4NWM1MDA0YzBmYjIwYiIsImV4cCI6MTU4ODEyOTM0MSwidXNlcm5hbWUiOiJkZXZuZXR1c2VyIn0.R7ljcZjotZ42pfg4r2fK-Ut4nmLIEigKF3AqW1szwDY",
+            "Cross-Origin-Resource-Policy": "sandboxdnac.cisco.com"
+          },
+        };
+        
+        $.ajax(settings).done(function (response) {
+          console.log(response);
+        });
+      </script>
+
+    </div>
+    -->
+    <div>
+      <script>$(document).ready(function () {
+        var $routerinfo = $('#routerinfo');
+        $.ajax({
+          url: "run",
+          success: function (run) {
+            //$.each(run, function(key, value) {
+            //  console.log(run.key);
+            //  $routerinfo.append('<p>'+ value.type +'</p>')
+            // });
+            console.log(run)
+            $("#run").html(run);
+            $routerinfo.append('<li>'+ 'Type: '+ run.type +'</li>')
+            $routerinfo.append('<li>'+ 'Hostname: '+ run.hostname +'</li>')
+            $routerinfo.append('<li>'+ 'MAC Address: '+ run.macAddress +'</li>')
+            $routerinfo.append('<li>'+ 'Software/Version: '+run.softwareType + ' ' +run.softwareVersion +'</li>')
+            $routerinfo.append('<li>'+ 'Management IP: '+ run.managementIpAddress +'</li>')
+            $routerinfo.append('<li>'+ 'Uptime: ' + run.upTime +'</li>')
+
+          }
+            });
+      });
+    </script>
+    </div>
+
+    <div class="container">
+      <span id="routerHeader"><h2>Router Info</h2></span>
+      <article class="media content-section">
+        <ul><span id="routerinfo"></span></ul>
+      </article>
+    </div>
+    <div class="container">
+        <h2>Name</h2>
+        <ul id="orders1"></ul>
+        <h2>Email</h2>
+        <ul id="orders2"></ul>
+    </div>
+    {% for e in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ e.first_name }}</a>
+              <small class="text-muted">{{ e.email }}</small>
+            </div>
+        </article>
+    {%  endfor %}
+{% endblock %}
